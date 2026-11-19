@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Embedded & AIoT สำหรับนักเรียน</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600&family=Prompt:wght@500;700&display=swap">
+<style>
+:root{--bg:#f4f6f2;--surface:#fff;--ink:#14231e;--muted:#52635c;--line:#d5ddd6;--pcb:#0f5c4d;--pcb-ink:#fff;--gold:#c99a1b;--soft:#e3efe9;--hot:#c2410c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1815;--surface:#16251f;--ink:#e8f1ec;--muted:#9db2a8;--line:#27403a;--pcb:#2fa98c;--pcb-ink:#06241c;--gold:#e5b94a;--soft:#1b3029;--hot:#fb923c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1815;--surface:#16251f;--ink:#e8f1ec;--muted:#9db2a8;--line:#27403a;--pcb:#2fa98c;--pcb-ink:#06241c;--gold:#e5b94a;--soft:#1b3029;--hot:#fb923c;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.75 "Noto Sans Thai",system-ui,sans-serif}
+h1,h2,h3{font-family:"Prompt","Noto Sans Thai",system-ui,sans-serif;line-height:1.3;margin:0 0 .5em}
+h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:700}
+h2{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700}
+h3{font-size:1.15rem;font-weight:500}
+p{margin:0 0 1em}
+a{color:var(--pcb)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1020px;margin:0 auto;padding:0 20px}
+section{padding:56px 0;border-top:1px solid var(--line)}
+.lead{max-width:62ch;color:var(--muted)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:8px;padding-bottom:8px;align-items:center}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:6px 12px;border-radius:6px;font-size:.92rem}
+nav a:hover{background:var(--soft)}
+nav b{font-family:Prompt,sans-serif;margin-right:8px;color:var(--pcb)}
+.hero{padding:48px 0 56px;border:0}
+.demo{background:var(--pcb);color:var(--pcb-ink);border-radius:14px;padding:22px;margin-top:28px;max-width:760px}
+:root[data-theme="dark"] .demo,:root:not([data-theme="light"]) .demo{color:var(--pcb-ink)}
+.demo label{display:block;font-weight:600;margin-bottom:8px}
+.demo input[type=range]{width:100%;accent-color:var(--gold)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.step{background:rgba(255,255,255,.16);border:2px solid transparent;border-radius:10px;padding:10px 8px;text-align:center;font-size:.9rem;line-height:1.4;min-height:84px}
+.step b{display:block;font-family:Prompt,sans-serif;font-size:1rem}
+.step.on{background:#fff;color:#0f3d33;border-color:var(--gold)}
+.fan{display:inline-block;transition:transform .3s}
+.fan.spin{animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.fan.spin{animation:none}html{scroll-behavior:auto}}
+.demo .out{margin:14px 0 0;font-size:1.05rem}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.card p{margin:0;color:var(--muted);font-size:.95rem;line-height:1.65}
+.card h3{margin-bottom:.3em}
+.tag{display:inline-block;font-size:.8rem;background:var(--soft);color:var(--pcb);border-radius:4px;padding:1px 8px;margin-top:10px}
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.pick button{font:inherit;font-size:.95rem;border:1.5px solid var(--pcb);background:transparent;color:var(--pcb);border-radius:999px;padding:6px 16px;cursor:pointer}
+.pick button[aria-pressed=true]{background:var(--pcb);color:var(--pcb-ink)}
+.board{transition:opacity .2s,border-color .2s}
+.board.dim{opacity:.35}
+.board.hit{border-color:var(--gold);border-width:2px}
+.scroll{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--soft);font-weight:600}
+tr:last-child td{border-bottom:0}
+ul.plain{padding-left:1.2em;margin:0 0 1em}
+ul.plain li{margin-bottom:.3em}
+.note{border-left:4px solid var(--gold);background:var(--surface);padding:12px 16px;border-radius:0 8px 8px 0;margin:20px 0}
+.sum{list-style:none;padding:0;display:grid;gap:10px}
+.sum li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.sum b{color:var(--pcb)}
+footer{padding:32px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+@media (max-width:560px){.flow{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav aria-label="เมนู"><div class="wrap">
+<b>Embedded &amp; AIoT</b>
+<a href="#what">Embedded คืออะไร</a><a href="#boards">เลือกบอร์ด</a><a href="#tesaiot">TESAIoT</a><a href="#bento">BENTO IDE</a><a href="#buu">หลักสูตร ม.บูรพา</a><a href="#sum">สรุป</a>
+</div></nav>
+
+<header class="wrap hero">
+<h1>สมองเล็ก ๆ ในอุปกรณ์<br>ทำงานแทนเราได้อย่างไร</h1>
+<p class="lead">Embedded System คือคอมพิวเตอร์ขนาดเล็กที่ฝังอยู่ในอุปกรณ์ อ่านค่าเซนเซอร์ ตัดสินใจตามโปรแกรม แล้วสั่งไฟ มอเตอร์ จอ หรือส่งข้อมูลออนไลน์ ลองเลื่อนอุณหภูมิด้านล่างดูได้เลย</p>
+<div class="demo" role="group" aria-label="ตัวอย่างพัดลมอัตโนมัติ">
+<label for="t">อุณหภูมิที่เซนเซอร์วัดได้: <span id="tv">30</span>°C</label>
+<input id="t" type="range" min="20" max="45" value="30">
+<div class="flow" aria-live="polite">
+<div class="step on" id="s1"><b>วัด</b>เซนเซอร์อ่านค่า</div>
+<div class="step" id="s2"><b>ตัดสินใจ</b>สูงกว่า 35°C ไหม</div>
+<div class="step" id="s3"><b>ทำงาน</b><span class="fan" id="fan">✱</span> <span id="fl">พัดลมปิด</span></div>
+<div class="step" id="s4"><b>สื่อสาร</b><span id="msg">ยังไม่ส่ง</span></div>
+</div>
+<p class="out" id="out">ตอนนี้ยังไม่ร้อนเกินกำหนด พัดลมจึงปิดอยู่</p>
+</div>
+</header>
+
+<section id="what"><div class="wrap">
+<h2>Embedded คืออะไร</h2>
+<p class="lead">ระบบ Embedded ทุกตัวมีวงจร 4 ส่วนเหมือนกัน</p>
+<div class="grid">
+<div class="card"><h3>Input</h3><p>เซนเซอร์ เช่น อุณหภูมิ แสง ปุ่มกด กล้อง เสียง</p></div>
+<div class="card"><h3>Process</h3><p>ไมโครคอนโทรลเลอร์ (MCU) ประมวลผลตามโค้ด</p></div>
+<div class="card"><h3>Output</h3><p>LED จอ รีเลย์ มอเตอร์ เสียง</p></div>
+<div class="card"><h3>Communication</h3><p>Wi‑Fi, Bluetooth, MQTT หรืออินเทอร์เน็ต</p></div>
+</div>
+<h3 style="margin-top:32px">ทำไมต้องเรียน</h3>
+<p class="lead">สมาร์ตโฮม หุ่นยนต์ รถยนต์ เครื่องวัด โดรน และระบบฟาร์มอัจฉริยะ ล้วนใช้ Embedded System เพื่อให้อุปกรณ์คิดและทำงานเองได้ การเรียนจึงไม่ใช่แค่จำชื่อบอร์ด แต่คือเข้าใจว่าบอร์ดแต่ละแบบถูกสร้างมาแก้ปัญหาอะไร และควรเลือกใช้เมื่อไร</p>
+</div></section>
+
+<section id="boards"><div class="wrap">
+<h2>บอร์ดยอดนิยมในการสอน</h2>
+<p class="lead">เลือกสิ่งที่อยากทำ แล้วดูว่าบอร์ดไหนเหมาะ</p>
+<div class="pick" role="group" aria-label="เลือกสิ่งที่อยากทำ">
+<button data-k="ctl" aria-pressed="false">ควบคุมไฟ/มอเตอร์</button>
+<button data-k="net" aria-pressed="false">ต่ออินเทอร์เน็ต</button>
+<button data-k="ai" aria-pressed="false">ทำ AI บนอุปกรณ์</button>
+<button data-k="" aria-pressed="false">ดูทั้งหมด</button>
+</div>
+<div class="grid" id="bgrid">
+<div class="card board" data-k="ctl"><h3>Arduino Uno</h3><p>เกิดมาเพื่อให้มือใหม่คุมฮาร์ดแวร์ได้ง่าย ควบคุม LED เซนเซอร์ มอเตอร์ด้วย C/C++</p><span class="tag">เริ่มต้นวงจรและการควบคุม</span></div>
+<div class="card board" data-k=""><h3>micro:bit</h3><p>สอน Coding/STEM ให้เห็นผลเร็ว เขียนแบบบล็อก JavaScript หรือ Python มี LED และเซนเซอร์ในตัว</p><span class="tag">นักเรียนมัธยม ผู้เริ่มต้น</span></div>
+<div class="card board" data-k="net"><h3>ESP32</h3><p>เกิดมาเพื่อทำ IoT ส่งข้อมูลเซนเซอร์ผ่าน Wi‑Fi/MQTT ควบคุมผ่านเว็บหรือแอป</p><span class="tag">IoT, Smart Home, Smart Farm</span></div>
+<div class="card board" data-k="ctl"><h3>Raspberry Pi Pico</h3><p>MCU ราคาถูกที่ยืดหยุ่น ใช้ MicroPython หรือ C/C++ ควบคุมฮาร์ดแวร์</p><span class="tag">เริ่มจาก Python</span></div>
+<div class="card board" data-k="ai"><h3>Raspberry Pi</h3><p>คอมพิวเตอร์ขนาดเล็ก ไม่ใช่แค่ MCU รัน Linux เว็บ กล้อง AI ฐานข้อมูล</p><span class="tag">งานประมวลผลหนัก</span></div>
+<div class="card board" data-k="ai"><h3>TESAIoT Dev Kit</h3><p>รวม Embedded, IoT, ความปลอดภัย และ Edge AI ไว้ในชุดเดียว อ่านเซนเซอร์ แสดงจอ ส่งข้อมูล และรัน AI บนบอร์ด</p><span class="tag">โครงงาน AIoT และ Edge AI</span></div>
+</div>
+<div class="note"><b>กฎง่าย ๆ:</b> อยากควบคุมไฟ/มอเตอร์ เริ่มที่ Arduino หรือ Pico · อยากต่ออินเทอร์เน็ต เลือก ESP32 · อยากทำ AI บนอุปกรณ์ เลือก TESAIoT Dev Kit หรือ Raspberry Pi</div>
+<h3>วิธีใช้บอร์ดจริง</h3>
+<ol class="plain"><li>ต่อวงจร เช่น LED กับขา GPIO ผ่านตัวต้านทาน</li><li>เขียนโค้ดสั่งให้ขา GPIO เปิด-ปิด LED</li><li>อัปโหลดโปรแกรมจากคอมพิวเตอร์เข้าบอร์ด</li><li>ทดสอบและแก้ปัญหา ตรวจสาย โค้ด และเซนเซอร์</li><li>ต่อยอด เพิ่มจอ Wi‑Fi MQTT กล้อง หรือโมเดล AI</li></ol>
+</div></section>
+
+<section id="tesaiot"><div class="wrap">
+<h2>TESAIoT Dev Kit</h2>
+<p class="lead">บอร์ดพัฒนาสำหรับ AIoT และ Edge AI สร้างบนชิป Infineon PSoC Edge E84 รวม MCU หลายคอร์ NPU สำหรับ AI Wi‑Fi 6 เซนเซอร์ในตัว และจอสัมผัสไว้ในบอร์ดเดียว</p>
+<p class="lead">บอร์ดทั่วไปเหมาะกับการเริ่มต้น แต่เมื่อโครงงานต้องตรวจจับภาพ เสียง หรือการเคลื่อนไหวบนบอร์ดเอง ต้องมี NPU และหน่วยความจำมากขึ้น จึงออกแบบให้เป็น “ห้องแล็บพกพา” สำหรับ Embedded, IoT, ความปลอดภัย และ Edge AI</p>
+<div class="scroll"><table>
+<thead><tr><th>ส่วน</th><th>มีอะไร</th><th>ใช้ทำอะไร</th></tr></thead>
+<tbody>
+<tr><td>ชิปหลัก</td><td>Cortex‑M55 400 MHz + Helium DSP + Ethos‑U55 NPU</td><td>ประมวลผลและรัน Edge AI</td></tr>
+<tr><td>ความปลอดภัย</td><td>TrustZone, Secure Boot, OPTIGA Trust M</td><td>ป้องกันเฟิร์มแวร์และการเชื่อมต่อ</td></tr>
+<tr><td>หน่วยความจำ</td><td>QSPI NOR 512 Mb, HYPERRAM 128 Mb, LittleFS 52 MB</td><td>เก็บโปรแกรมและข้อมูลระบบ</td></tr>
+<tr><td>การสื่อสาร</td><td>Wi‑Fi 6 dual-band + Bluetooth LE</td><td>ต่ออินเทอร์เน็ตและอุปกรณ์ไร้สาย</td></tr>
+<tr><td>เซนเซอร์ในตัว</td><td>IMU, เข็มทิศ, แรงดัน, อุณหภูมิ/ความชื้น, เรดาร์ 60 GHz, กล้อง, ไมโครโฟน</td><td>ตรวจจับการเคลื่อนไหว สภาพแวดล้อม เสียง และภาพ</td></tr>
+<tr><td>จอ</td><td>จอสัมผัส 4.3 นิ้ว MIPI DSI</td><td>สร้างหน้าจอควบคุมและแสดงผล</td></tr>
+<tr><td>การขยาย</td><td>mikroBUS ×3, Arduino shield, CAN, RS‑485</td><td>ต่อโมดูลภายนอกเพิ่ม</td></tr>
+</tbody></table></div>
+<h3 style="margin-top:28px">ผู้เรียนทำอะไรกับบอร์ดได้</h3>
+<ul class="plain"><li>อ่านค่าเซนเซอร์ เช่น อุณหภูมิ ความชื้น แรงดัน ความเร่ง และเรดาร์</li><li>ควบคุม LED ปุ่ม CapSense GPIO และจอสัมผัส</li><li>แสดงเมนูหรือแดชบอร์ดบนจอด้วย LVGL</li><li>ส่งข้อมูลผ่าน Wi‑Fi/MQTT ไปยังระบบ IoT</li><li>รันโมเดล AI บน NPU ให้อุปกรณ์ตัดสินใจเองโดยไม่ต้องส่งข้อมูลทั้งหมดขึ้นคลาวด์</li></ul>
+<div class="note"><b>ตัวอย่างโครงงาน:</b> วัดอุณหภูมิและความชื้น → แสดงค่าบนจอ → เปิดพัดลมเมื่อร้อนเกินกำหนด → ส่งข้อมูลผ่าน MQTT → ใช้เรดาร์ตรวจว่ามีคนอยู่ใกล้หรือไม่</div>
+</div></section>
+
+<section id="bento"><div class="wrap">
+<h2>BENTO IDE คืออะไร</h2>
+<p class="lead"><b>ide.tesaiot.dev</b> คือ BENTO IDE ของ TESAIoT เว็บสำหรับเขียนและทดลองโปรแกรม Embedded/IoT รองรับทั้ง MicroPython และ Embedded C</p>
+<div class="grid">
+<div class="card"><h3>เขียนโค้ดควบคุมบอร์ด</h3><p>LED เซนเซอร์ GPIO จอสัมผัส</p></div>
+<div class="card"><h3>เริ่มจากบล็อก</h3><p>เริ่มด้วย Block Programming แล้วค่อยไปสู่โค้ดจริง</p></div>
+<div class="card"><h3>ทดลองในเบราว์เซอร์</h3><p>ใช้ BENTO Emulator ได้แม้ยังไม่มีบอร์ดจริง</p></div>
+<div class="card"><h3>ทำโปรเจกต์ IoT</h3><p>อ่านเซนเซอร์ ส่งข้อมูล MQTT และแสดงแดชบอร์ด</p></div>
+<div class="card"><h3>ต่อยอดสู่ Edge AI</h3><p>รันโมเดล AI บนบอร์ดเอง</p></div>
+</div>
+</div></section>
+
+<section id="buu"><div class="wrap">
+<h2>หลักสูตร ม.บูรพา</h2>
+<p class="lead">วิศวกรรมระบบสมองกลฝังตัวและอิเล็กทรอนิกส์สื่อสาร ปริญญาตรี วศ.บ. 4 ปี รวม 136 หน่วยกิต</p>
+<h3>เรียนอะไร</h3>
+<ul class="plain"><li>การเขียนโปรแกรมและคอมพิวเตอร์สำหรับวิศวกร</li><li>วงจรไฟฟ้าและอิเล็กทรอนิกส์</li><li>ระบบสมองกลฝังตัว: MCU, GPIO, เซนเซอร์, การควบคุมอุปกรณ์</li><li>การสื่อสาร: Wi‑Fi, Bluetooth, เครือข่าย, IoT, MQTT</li><li>ระบบควบคุมและหุ่นยนต์</li><li>AIoT และ Edge AI: ให้อุปกรณ์วิเคราะห์ข้อมูลบนบอร์ดได้</li><li>โครงงานและการออกแบบระบบจริง</li></ul>
+<h3>ทำไมผสม 3 ส่วนนี้</h3>
+<div class="grid">
+<div class="card"><h3>Embedded</h3><p>ทำให้อุปกรณ์ “คิดและควบคุม” ได้</p></div>
+<div class="card"><h3>Electronics</h3><p>ทำให้อุปกรณ์ “รับรู้และขับเคลื่อน” ได้</p></div>
+<div class="card"><h3>Communication</h3><p>ทำให้อุปกรณ์ “เชื่อมต่อและแลกเปลี่ยนข้อมูล” ได้</p></div>
+</div>
+<div class="note"><b>ตัวอย่างฟาร์มอัจฉริยะ:</b> เซนเซอร์วัดดินและอากาศ → MCU ตัดสินใจ → สั่งปั๊มน้ำ → ส่งข้อมูลผ่าน MQTT ไปยังแอปของเจ้าของฟาร์ม</div>
+</div></section>
+
+<section id="sum"><div class="wrap">
+<h2>เรียนแบบเข้าใจ ไม่ใช่ท่องจำ</h2>
+<p class="lead">เริ่มจากคำถามว่า “ถ้าอยากทำไฟอัตโนมัติ ประตูอัตโนมัติ หรือสถานีวัดอากาศ ต้องใช้บอร์ดแบบไหน เพราะอะไร” แล้วค่อยดูว่าแต่ละบอร์ดเกิดมาแก้ปัญหาอะไร</p>
+<ul class="plain"><li><b>Arduino</b> เกิดมาให้คนทั่วไปสร้างอุปกรณ์อิเล็กทรอนิกส์ได้ง่าย</li><li><b>ESP32</b> เกิดมาเพราะโลกต้องการอุปกรณ์ที่ต่ออินเทอร์เน็ตได้</li><li><b>micro:bit</b> เกิดมาเพื่อการศึกษา จึงมีเซนเซอร์และ LED ในตัว</li><li><b>Raspberry Pi</b> เกิดมาให้ทุกคนมีคอมพิวเตอร์ราคาถูก</li><li><b>TESAIoT Dev Kit</b> เกิดมาให้เห็นระบบจริงที่มีเซนเซอร์ จอ การสื่อสาร ความปลอดภัย และ AI ในชุดเดียว</li></ul>
+<h3 style="margin-top:28px">สรุปสั้น</h3>
+<ul class="sum">
+<li><b>Embedded</b> = สมองเล็กในอุปกรณ์ที่ควบคุมสิ่งต่าง ๆ ได้</li>
+<li><b>IoT</b> = อุปกรณ์ที่ต่ออินเทอร์เน็ตและส่งข้อมูลได้</li>
+<li><b>Edge AI</b> = AI ที่รันบนอุปกรณ์เอง ไม่ต้องส่งข้อมูลทั้งหมดขึ้นคลาวด์</li>
+<li><b>TESAIoT Dev Kit</b> = บอร์ดรวมทุกอย่างไว้ในชุดเดียวสำหรับเรียน AIoT จริง</li>
+<li><b>BENTO IDE</b> = เว็บสำหรับเขียนโค้ดและทดลองบอร์ดได้ง่าย</li>
+</ul>
+</div></section>
+
+<footer><div class="wrap">ข้อมูลบอร์ด TESAIoT อ้างอิงจาก <a href="https://tesaiot.github.io/tesaiot-pse84-devkit-sdk/">tesaiot.github.io</a> และหน้าผลิตภัณฑ์ของ Infineon · หลักสูตรอ้างอิงจากเว็บไซต์ ม.บูรพา</div></footer>
+
+<script>
+(function(){
+var t=document.getElementById('t'),tv=document.getElementById('tv'),fan=document.getElementById('fan'),
+fl=document.getElementById('fl'),msg=document.getElementById('msg'),out=document.getElementById('out'),
+s=[1,2,3,4].map(function(i){return document.getElementById('s'+i)});
+function upd(){
+var v=+t.value,hot=v>35;tv.textContent=v;
+fan.classList.toggle('spin',hot);fl.textContent=hot?'พัดลมเปิด':'พัดลมปิด';
+msg.textContent=hot?'ส่งแจ้งเตือนไปมือถือแล้ว':'ยังไม่ส่ง';
+s[0].classList.add('on');s[1].classList.add('on');
+s[2].classList.toggle('on',hot);s[3].classList.toggle('on',hot);
+out.textContent=hot?'อุณหภูมิ '+v+'°C เกิน 35°C บอร์ดจึงเปิดพัดลมและส่งแจ้งเตือน':'ตอนนี้ '+v+'°C ยังไม่เกิน 35°C พัดลมจึงปิดอยู่';
+}
+t.addEventListener('input',upd);upd();
+var btns=document.querySelectorAll('.pick button'),cards=document.querySelectorAll('.board');
+btns.forEach(function(b){b.addEventListener('click',function(){
+var k=b.getAttribute('data-k');
+btns.forEach(function(x){x.setAttribute('aria-pressed',x===b&&k!==''?'true':'false')});
+cards.forEach(function(c){
+if(!k){c.classList.remove('dim','hit');return}
+var m=c.getAttribute('data-k')===k;c.classList.toggle('hit',m);c.classList.toggle('dim',!m);
+});
+})});
+})();
+</script>
+</body>
+</html>
